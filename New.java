@@ -134,7 +134,7 @@ public class New extends Application {
         Label labelintro = new Label("RVCE online query portal");
         layout.getChildren().addAll(labelintro,help,tfusername,pfpassword,button,label1);
         layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout,500,500);
+        Scene scene = new Scene(layout,700,500);
         ////scene.getStylesheets().add("application.css");
 
         primaryStage.setScene(scene);
