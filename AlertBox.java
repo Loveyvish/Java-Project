@@ -5,6 +5,8 @@ import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class AlertBox {
 

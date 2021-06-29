@@ -1,4 +1,4 @@
-package application;
+//package application;
 
 import java.awt.MenuBar;
 
@@ -9,6 +9,7 @@ import java.sql.Statement;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,7 +28,10 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 
 public class New extends Application {
-
+    @FXML
+    public TextField studentName;
+    @FXML
+    public TextField studentUSN;
     Button button;
 
     public static void main(String[] args) {
@@ -101,9 +105,9 @@ public class New extends Application {
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
-                    con= DriverManager.getConnection("jdbc:mysql://localhost:3306/complaint","root","pswd");  //enter password
+                    con= DriverManager.getConnection("jdbc:mysql://localhost:3306/Students?useSSL=false","root","");  //enter password
                     stmt = con.createStatement();
-                    ResultSet rs= stmt.executeQuery("SELECT * FROM login where username='"+checkUser+"'");
+                    ResultSet rs= stmt.executeQuery("SELECT * FROM user where Name='"+checkUser+"'");
 
                     while(rs.next()) {
                         if(rs.getString(2).equals(checkPw)) {
@@ -139,14 +143,15 @@ public class New extends Application {
             public void handle(ActionEvent event) {
                 Connection con =null;
                 Statement stmt= null;
-                String name1 = id.getText().toString();
-                String complaint1 =complainttext.getText().toString();
+                String stName = studentName.getText().toString();
+                String stUSN = studentUSN.getText().toString();
+
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
                     con= DriverManager.getConnection("jdbc:mysql://localhost:3306/listdb","root","pswd");
                     stmt = con.createStatement();
-                    String sql="INSERT INTO listtable(name,complaint)"+"VALUES('"+name1+"','"+complaint1+"')";
+                    String sql = "INSERT INTO `user` (`Name`, `USN`) VALUES ('"+stName+"',"+stUSN+")";
                     printlab.setText("Complaint successfully registered");
                     stmt.executeUpdate(sql);
 
@@ -165,7 +170,7 @@ public class New extends Application {
         });
 
 
-        help.setOnAction(e->AlertBox.display("Help Centre"));
-        trending.setOnAction(e->TrendingBox.display());
+//        help.setOnAction(e->AlertBox.display("Help Centre"));
+//        trending.setOnAction(e->TrendingBox.display());
     }
 }
