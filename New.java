@@ -27,11 +27,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
+import javax.security.auth.Subject;
+
 public class New extends Application {
     @FXML
     public TextField studentName;
     @FXML
     public TextField studentUSN;
+    @FXML TextField complainttext;
     Button button;
 
     public static void main(String[] args) {
@@ -54,9 +57,10 @@ public class New extends Application {
         pfpassword.setText("");
 
 
-        button = new Button();
-        button.setText("Login");
+//        button = new Button();
+//        button.setText("Login");
         Label label1=new Label();
+        Button login = new Button("Login");
 
 
         //scene2
@@ -65,6 +69,11 @@ public class New extends Application {
 
         TextField id= new TextField();
         id.setPromptText("Enter your Name");
+        TextField sem = new TextField();
+        sem.setPromptText("Enter sem");
+
+        TextField subject = new TextField();
+        subject.setPromptText("Enter subject");
         TextField complainttext= new TextField();
         ////Image img2= new Image("welcome.png");
         ////ImageView iv2= new ImageView(img2);
@@ -84,7 +93,7 @@ public class New extends Application {
         //mb.getMenus().add(optionsmenu);
 
         Label printlab= new Label();
-        layout2.getChildren().addAll(trending,logout,id,complainttext,submit,printlab);
+        layout2.getChildren().addAll(trending,logout,id,sem,subject,complainttext,submit,printlab);
         layout2.setAlignment(Pos.CENTER);
         Scene scene2= new Scene(layout2,550,500);
         ////scene2.getStylesheets().add("application.css");
@@ -114,6 +123,7 @@ public class New extends Application {
                             label1.setText("Enter login credentials");
 
                             primaryStage.setScene(scene2);
+//                            primaryStage.show();
                         }
                         else {
                             label1.setText("Incorrect user or pw.");
@@ -139,21 +149,29 @@ public class New extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
         submit.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+
                 Connection con =null;
                 Statement stmt= null;
-                String stName = studentName.getText().toString();
-                String stUSN = studentUSN.getText().toString();
+                String sname = id.getText().toString();
+//                String stUSN = studentUSN.getText().toString();
+                String doubt = complainttext.getText().toString();
+                String semester = sem.getText().toString();
+                String sub = subject.getText().toString();
 
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
-                    con= DriverManager.getConnection("jdbc:mysql://localhost:3306/listdb","root","pswd");
+                    con= DriverManager.getConnection("jdbc:mysql://localhost:3306/Students?useSSL=false","root","");
                     stmt = con.createStatement();
-                    String sql = "INSERT INTO `user` (`Name`, `USN`) VALUES ('"+stName+"',"+stUSN+")";
+//                    String sql = "INSERT INTO `users` (`Name`, `USN`) VALUES ('"+stName+"',"+stUSN+")";
+                    String sql = "INSERT INTO `users` (`Name`,`Semester`,`Subject`,`Query`) VALUES ('"+sname+"','"+semester+"','"+sub+"','"+doubt+"') ";
                     printlab.setText("Complaint successfully registered");
                     stmt.executeUpdate(sql);
+//                    stmt.executeUpdate(sql2);
 
                     con.close();
                 } catch (Exception e) {
@@ -163,6 +181,11 @@ public class New extends Application {
 
             }
         });
+
+//        button = new Button("Submit");
+
+
+
         logout.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 primaryStage.setScene(scene);
